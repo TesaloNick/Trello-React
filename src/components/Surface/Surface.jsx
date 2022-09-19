@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import style from './Surface.module.scss'
 
 export default function Surface() {
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || [])
   const [counterColumns, setCounterColumns] = useState(JSON.parse(localStorage.getItem('counterColumns')) || 0)
+  const inputColumn = useRef();
   // let task = null
   // let background = null
   // let shiftY = null
@@ -16,45 +17,91 @@ export default function Surface() {
   //   localStorage.setItem('tasks', JSON.stringify(tasks))
   // }
 
-  function saveTasks(newTasks) {
+  function storeTasks(newTasks) {
     setTasks(newTasks)
     localStorage.setItem('tasks', JSON.stringify(newTasks))
   }
 
   function addColumn(e) {
     e.preventDefault()
-    const formColumn = e.target.closest(`.${style.surface__addColumnForm}`)
     const newTasks = [...tasks, {
       id: 'column' + counterColumns,
-      head: formColumn.querySelector(`.${style.surface__addColumnInput}`).value,
+      head: inputColumn.current.value,
       tasks: []
     }]
-    formColumn.reset()
+    e.target.reset()
 
-    saveTasks(newTasks)
+    storeTasks(newTasks)
     setCounterColumns(counterColumns + 1)
     localStorage.setItem('counterColumns', JSON.stringify(counterColumns + 1))
   }
 
   function closeColumn(e) {
-    const newTasks = tasks.filter(column => column.id !== e.target.closest(`.${style.surface__column}`).id)
-    saveTasks(newTasks)
+    const newTasks = tasks.filter(column => column.id !== e.target.parentNode.parentNode.id)
+    storeTasks(newTasks)
   }
 
-  // function addTask(e) {
-  //   e.preventDefault()
-  //   if (e.target.closest('.surface__task-form')) {
-  //     const newTasks = tasks.map(column => {
-  //       if (e.target.closest('.surface__column').id == column.id) {
-  //         column.tasks.push({
-  //           id: e.target.closest('.surface__column').id + '_' + Math.round(Math.random() * 100000000000000000),
-  //           content: e.target.closest('.surface__task-form').querySelector('.surface__task-input').value
-  //         })
-  //       }
-  //     })
-  //     localStorage.setItem('tasks', JSON.stringify(newTasks))
-  //   }
-  // }
+  function addTask(e) {
+    e.preventDefault()
+    const newTasks = tasks.map(column => {
+      if (e.target.parentNode.id === column.id) {
+        return {
+          ...column, tasks: [...column.tasks, {
+            id: e.target.parentNode.id + '_' + Math.round(Math.random() * 100000000000000000),
+            content: e.target.firstChild.value,
+            isChanging: false,
+          }]
+        }
+      } else {
+        return column
+      }
+    })
+    e.target.reset()
+    storeTasks(newTasks)
+  }
+
+  function closeTask(e) {
+    const newTasks = tasks.map(column => {
+      if (e.target.parentNode.parentNode.parentNode.id === column.id) {
+        const newTasks = column.tasks.filter(task => task.id !== e.target.parentNode.id)
+        return { ...column, tasks: newTasks }
+      } else {
+        return column
+      }
+    })
+    storeTasks(newTasks)
+  }
+
+  function addInputForChanging(e) {
+    const newTasks = tasks.map(column => {
+      if (e.target.parentNode.parentNode.parentNode.id === column.id) {
+        const newTasks = column.tasks.map(task => task.id === e.target.parentNode.id ? { ...task, isChanging: !task.isChanging } : task)
+        return { ...column, tasks: newTasks }
+      } else {
+        return column
+      }
+    })
+    storeTasks(newTasks)
+    // let inputForChanging = e.target.closest('.task').querySelector('.task__content')
+    // inputForChanging.style.height = e.target.closest('.task').querySelector('.task__content').offsetHeight + 'px'
+    // inputForChanging.innerHTML = `
+    //       <input type = "text" class="task__new-text" value = '${inputForChanging.textContent}' required>
+    //     `
+    // inputForChanging.querySelector('.task__new-text').focus()
+  }
+
+  function changeTaskValue(e) {
+    const newTasks = tasks.map(column => {
+      if (e.target.parentNode.parentNode.parentNode.parentNode.id === column.id) {
+        const newTasks = column.tasks.map(task => task.id === e.target.parentNode.parentNode.id ? { ...task, content: e.target.value } : task)
+        console.log({ ...column, tasks: newTasks });
+        return { ...column, tasks: newTasks }
+      } else {
+        return column
+      }
+    })
+    storeTasks(newTasks)
+  }
 
   // function changeTask(e) {
   //   if (e.type === 'keypress' && e.key === "Enter" && e.target.closest('.task__content')) {
@@ -68,29 +115,6 @@ export default function Surface() {
   //       column
   //     )
 
-  //     localStorage.setItem('tasks', JSON.stringify(newTasks))
-  //   }
-  // }
-
-  // function addInputForChanging(e) {
-  //   if ((e.target.closest('.task__content') && e.type === 'dblclick') || (e.target.closest('.task__change') && e.type === 'click')) {
-  //     let inputForChanging = e.target.closest('.task').querySelector('.task__content')
-  //     inputForChanging.style.height = e.target.closest('.task').querySelector('.task__content').offsetHeight + 'px'
-  //     inputForChanging.innerHTML = `
-  //         <input type = "text" class="task__new-text" value = '${inputForChanging.textContent}' required>
-  //       `
-  //     inputForChanging.querySelector('.task__new-text').focus()
-  //   }
-  // }
-
-  // function closeTask(e) {
-  //   if (e.target.closest('.task__close')) {
-  //     const newTasks = tasks.map(column => {
-  //       if (e.target.closest('.surface__column').id = column.id) {
-  //         let newList = column.tasks.filter(task => task.id !== e.target.closest('.task').id)
-  //         column.tasks = newList
-  //       }
-  //     })
   //     localStorage.setItem('tasks', JSON.stringify(newTasks))
   //   }
   // }
@@ -168,7 +192,6 @@ export default function Surface() {
   return (
     <div className={style.container} >
       <div className={style.surface}>
-        {console.log(tasks)}
         {tasks.map(column =>
           <div className={style.surface__column} id={column.id} key={column.id}>
             <div className={style.head}>
@@ -178,19 +201,23 @@ export default function Surface() {
             <div className={style.list}>
               {column.tasks.map(item =>
                 <div className={style.task} id={item.id} key={item.id}>
-                  <div className={style.task__content}>{item.id}</div>
-                  <div className={style.task__change}></div>
-                  <div className={style.task__close}></div>
+                  {item.isChanging ?
+                    <form className={style.task__form}><input type="text" value={item.content} onChange={(e) => changeTaskValue(e)} /></form> :
+                    <div className={style.task__content} onDoubleClick={(e) => addInputForChanging(e)}>{item.content}</div>
+                  }
+
+                  <div className={style.task__change} onClick={(e) => addInputForChanging(e)}></div>
+                  <div className={style.task__close} onClick={(e) => closeTask(e)}></div>
                 </div>
               )}
             </div>
-            <form action="" className={style.surface__taskForm}>
+            <form action="" className={style.surface__taskForm} onSubmit={(e) => addTask(e)}>
               <input type="text" className={style.surface__taskInput} placeholder="+ Add task" required />
             </form>
           </div>
         )}
         <form action="" className={style.surface__addColumnForm} onSubmit={(e) => addColumn(e)}>
-          <input type="text" className={style.surface__addColumnInput} placeholder="+ Add column" required />
+          <input type="text" className={style.surface__addColumnInput} placeholder="+ Add column" ref={inputColumn} required />
         </form>
       </div>
     </div >

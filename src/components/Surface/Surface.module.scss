@@ -3,7 +3,7 @@
   flex-direction: column;
   max-width: 1300px;
   margin: auto;
-  font-size: 20px;
+  font-size: 18px;
   padding: 10px 0;
 
   @media (max-width: 1330px) {
@@ -106,6 +106,17 @@
 
   &__content {
     // height: auto;
+  }
+
+  &__form {
+    height: 20px;
+    width: 100%;
+
+    input {
+      height: 20px;
+      width: 100%;
+      font-size: 18px;
+    }
   }
 
   &__new-text {
