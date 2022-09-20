@@ -105,7 +105,8 @@
   gap: 10px;
 
   &__content {
-    // height: auto;
+    display: flex;
+    align-items: center;
   }
 
   &__form {
@@ -120,7 +121,6 @@
   }
 
   &__new-text {
-    // background-color: rgb(230, 230, 230);
     font-size: 20px;
     line-height: 1;
     width: 100%;

@@ -1,12 +1,12 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import style from './Surface.module.scss'
 
 export default function Surface() {
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || [])
+  // const [tasks, setTasks] = useState([])
   const [counterColumns, setCounterColumns] = useState(JSON.parse(localStorage.getItem('counterColumns')) || 0)
   const inputColumn = useRef();
   const [changingValue, setChangingValue] = useState(null)
-
   // let task = null
   // let background = null
   // let shiftY = null
@@ -15,8 +15,18 @@ export default function Surface() {
   // let eventUp = null
   // let eventOver = null
 
+  // useEffect(() => {
+  //   fetch('http://localhost:3001/columns').then((responce) => responce.json())
+  //     .then(tasks => setTasks(tasks))
+  // }, [])
+
   function storeTasks(newTasks) {
     setTasks(newTasks)
+    //   fetch('http://localhost:3001/columns', {
+    //     method: 'post',
+    //     headers: { "Content-type": "application/json" },
+    //     body: JSON.stringify({ title, author })
+    //   })
     localStorage.setItem('tasks', JSON.stringify(newTasks))
   }
 
@@ -25,6 +35,7 @@ export default function Surface() {
     const newTasks = [...tasks, {
       id: 'column' + counterColumns,
       head: inputColumn.current.value,
+      inputValue: '',
       tasks: []
     }]
     e.target.reset()
@@ -43,7 +54,9 @@ export default function Surface() {
     const newTasks = tasks.map(column => {
       if (columnId === column.id) {
         return {
-          ...column, tasks: [...column.tasks, {
+          ...column,
+          inputValue: '',
+          tasks: [...column.tasks, {
             id: columnId + '_' + Math.round(Math.random() * 100000000000000000),
             content: e.target.firstChild.value,
             isChanging: false,
@@ -60,8 +73,19 @@ export default function Surface() {
   function closeTask(columnId, taskId) {
     const newTasks = tasks.map(column => {
       if (columnId === column.id) {
-        // const newTasks = column.tasks.filter(task => task.id !== taskId)
         return { ...column, tasks: column.tasks.filter(task => task.id !== taskId) }
+      } else {
+        return column
+      }
+    })
+
+    storeTasks(newTasks)
+  }
+
+  function changeNewTaskNameValue(e, columnId) {
+    const newTasks = tasks.map(column => {
+      if (columnId === column.id) {
+        return { ...column, inputValue: e.target.value }
       } else {
         return column
       }
@@ -73,10 +97,9 @@ export default function Surface() {
   function addInputForChanging(columnId, taskId, taskContent) {
     const newTasks = tasks.map(column => {
       if (columnId === column.id) {
-        const newTasks = column.tasks.map(task => task.id === taskId ? { ...task, isChanging: true } : { ...task, isChanging: false })
-        return { ...column, tasks: newTasks }
+        return { ...column, tasks: column.tasks.map(task => task.id === taskId ? { ...task, isChanging: true } : { ...task, isChanging: false }) }
       } else {
-        return column
+        return { ...column, tasks: column.tasks.map(task => { return { ...task, isChanging: false } }) }
       }
     })
 
@@ -96,21 +119,23 @@ export default function Surface() {
     storeTasks(newTasks)
   }
 
-  // function changeTask(e) {
-  //   if (e.type === 'keypress' && e.key === "Enter" && e.target.closest('.task__content')) {
-  //     e.preventDefault();
-  //     const newTasks = tasks.map(column => e.target.closest('.surface__column').id === column.id ?
-  //       {
-  //         ...column, tasks: column.tasks.map(item => e.target.closest('.task').id === item.id ?
-  //           { ...item, content: e.target.value } :
-  //           item)
-  //       } :
-  //       column
-  //     )
+  function changeTask(e, columnId, taskId) {
+    e.preventDefault()
+    const newTasks = tasks.map(column => columnId === column.id ?
+      {
+        ...column, tasks: column.tasks.map(task => taskId === task.id ?
+          {
+            ...task,
+            content: changingValue,
+            isChanging: false
+          } :
+          task)
+      } :
+      column
+    )
 
-  //     localStorage.setItem('tasks', JSON.stringify(newTasks))
-  //   }
-  // }
+    storeTasks(newTasks)
+  }
 
   // function onMouseDown(event) {
   //   if (event.target.closest('.task')) {
@@ -195,7 +220,9 @@ export default function Surface() {
               {column.tasks.map(item =>
                 <div className={style.task} id={item.id} key={item.id}>
                   {item.isChanging ?
-                    <form className={style.task__form}><input type="text" value={changingValue} onChange={(e) => changeTaskValue(e, column.id, item.id)} /></form> :
+                    <form className={style.task__form} onSubmit={(e) => changeTask(e, column.id, item.id)}>
+                      <input type="text" value={changingValue} onChange={(e) => changeTaskValue(e, column.id, item.id)} />
+                    </form> :
                     <div className={style.task__content} onDoubleClick={() => addInputForChanging(column.id, item.id, item.content)}>{item.content}</div>
                   }
                   <div className={style.task__change} onClick={() => addInputForChanging(column.id, item.id, item.content)}></div>
@@ -204,7 +231,7 @@ export default function Surface() {
               )}
             </div>
             <form action="" className={style.surface__taskForm} onSubmit={(e) => addTask(e, column.id)}>
-              <input type="text" className={style.surface__taskInput} placeholder="+ Add task" required />
+              <input type="text" className={style.surface__taskInput} onChange={(e) => changeNewTaskNameValue(e, column.id)} value={column.inputValue} placeholder="+ Add task" required />
             </form>
           </div>
         )}
