@@ -1,5 +1,12 @@
 {
-  "columns": [],
+  "columns": [
+    {
+      "head": "ыва",
+      "inputValue": "",
+      "tasks": [],
+      "id": 1
+    }
+  ],
   "comments": [
     {
       "id": 1,

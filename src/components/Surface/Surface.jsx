@@ -15,45 +15,55 @@ export default function Surface() {
   // let eventUp = null
   // let eventOver = null
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3001/columns').then((responce) => responce.json())
-  //     .then(tasks => setTasks(tasks))
-  // }, [])
+  useEffect(() => {
+    fetch('http://localhost:3001/columns')
+      .then((responce) => responce.json())
+      .then(tasks => setTasks(tasks))
+  }, [])
 
   function storeTasks(newTasks) {
-    setTasks(newTasks)
-    //   fetch('http://localhost:3001/columns', {
-    //     method: 'post',
-    //     headers: { "Content-type": "application/json" },
-    //     body: JSON.stringify({ title, author })
-    //   })
-    localStorage.setItem('tasks', JSON.stringify(newTasks))
+    // setTasks(newTasks)
+    //   localStorage.setItem('tasks', JSON.stringify(newTasks))
   }
 
   function addColumn(e) {
     e.preventDefault()
-    const newTasks = [...tasks, {
-      id: 'column' + counterColumns,
+    const newColumn = {
       head: inputColumn.current.value,
       inputValue: '',
       tasks: []
-    }]
+    }
+    addColumnAPI(newColumn)
     e.target.reset()
-
-    storeTasks(newTasks)
-    setCounterColumns(counterColumns + 1)
-    localStorage.setItem('counterColumns', JSON.stringify(counterColumns + 1))
   }
 
-  function closeColumn(columnId) {
-    storeTasks(tasks.filter(column => column.id !== columnId))
+  function addColumnAPI(newColumn) {
+    fetch('http://localhost:3001/columns', {
+      method: 'post',
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(newColumn)
+    })
+  }
+
+  function deleteColumnAPI(columnId) {
+    fetch('http://localhost:3001/columns/' + columnId, { method: 'DELETE' })
+      .then(tasks => setTasks(tasks))
+  }
+
+  function changeColumnAPI(columnId, newColumn) {
+    fetch('http://localhost:3001/columns/' + columnId, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newColumn)
+    })
+    // .then(tasks => setTasks(tasks))
   }
 
   function addTask(e, columnId) {
     e.preventDefault()
-    const newTasks = tasks.map(column => {
+    tasks.map(column => {
       if (columnId === column.id) {
-        return {
+        const newColumn = {
           ...column,
           inputValue: '',
           tasks: [...column.tasks, {
@@ -62,12 +72,11 @@ export default function Surface() {
             isChanging: false,
           }]
         }
-      } else {
-        return column
+        changeColumnAPI(columnId, newColumn)
       }
     })
     e.target.reset()
-    storeTasks(newTasks)
+    // storeTasks(newTasks)
   }
 
   function closeTask(columnId, taskId) {
@@ -214,7 +223,7 @@ export default function Surface() {
           <div className={style.surface__column} id={column.id} key={column.id}>
             <div className={style.head}>
               <div className={style.head__content}>{column.head}</div>
-              <div className={style.head__close} onClick={() => closeColumn(column.id)}></div>
+              <div className={style.head__close} onClick={() => deleteColumnAPI(column.id)}></div>
             </div>
             <div className={style.list}>
               {column.tasks.map(item =>
