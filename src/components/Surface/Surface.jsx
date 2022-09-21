@@ -15,6 +15,8 @@ export default function Surface() {
   // let eventUp = null
   // let eventOver = null
 
+  // console.log(changingValue);
+
   useEffect(() => {
     fetch('http://localhost:3001/columns')
       .then((responce) => responce.json())
@@ -56,7 +58,6 @@ export default function Surface() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newColumn)
     })
-    // .then(tasks => setTasks(tasks))
   }
 
   function addTask(e, columnId) {
@@ -76,39 +77,25 @@ export default function Surface() {
       }
     })
     e.target.reset()
-    // storeTasks(newTasks)
   }
 
   function closeTask(columnId, taskId) {
-    const newTasks = tasks.map(column => {
+    tasks.map(column => {
       if (columnId === column.id) {
-        return { ...column, tasks: column.tasks.filter(task => task.id !== taskId) }
-      } else {
-        return column
+        const newColumn = { ...column, tasks: column.tasks.filter(task => task.id !== taskId) }
+        changeColumnAPI(columnId, newColumn)
       }
     })
-
-    storeTasks(newTasks)
-  }
-
-  function changeNewTaskNameValue(e, columnId) {
-    const newTasks = tasks.map(column => {
-      if (columnId === column.id) {
-        return { ...column, inputValue: e.target.value }
-      } else {
-        return column
-      }
-    })
-
-    storeTasks(newTasks)
   }
 
   function addInputForChanging(columnId, taskId, taskContent) {
     const newTasks = tasks.map(column => {
       if (columnId === column.id) {
-        return { ...column, tasks: column.tasks.map(task => task.id === taskId ? { ...task, isChanging: true } : { ...task, isChanging: false }) }
+        const newColumn = { ...column, tasks: column.tasks.map(task => task.id === taskId ? { ...task, isChanging: true, content: taskContent } : { ...task, isChanging: false }) }
+        changeColumnAPI(columnId, newColumn)
       } else {
-        return { ...column, tasks: column.tasks.map(task => { return { ...task, isChanging: false } }) }
+        const newColumn = { ...column, tasks: column.tasks.map(task => { return { ...task, isChanging: false } }) }
+        changeColumnAPI(newColumn.id, newColumn)
       }
     })
 
@@ -120,9 +107,9 @@ export default function Surface() {
     const newTasks = tasks.map(column => {
       if (columnId === column.id) {
         setChangingValue(e.target.value)
-        return { ...column, tasks: column.tasks.map(task => task.id === taskId ? { ...task, content: e.target.value } : task) }
+        // return { ...column, tasks: column.tasks.map(task => task.id === taskId ? { ...task, content: e.target.value } : task) }
       } else {
-        return column
+        // return column
       }
     })
     storeTasks(newTasks)
@@ -240,7 +227,7 @@ export default function Surface() {
               )}
             </div>
             <form action="" className={style.surface__taskForm} onSubmit={(e) => addTask(e, column.id)}>
-              <input type="text" className={style.surface__taskInput} onChange={(e) => changeNewTaskNameValue(e, column.id)} value={column.inputValue} placeholder="+ Add task" required />
+              <input type="text" className={style.surface__taskInput} placeholder="+ Add task" required />
             </form>
           </div>
         )}
