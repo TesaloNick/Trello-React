@@ -4,18 +4,17 @@ import style from './Surface.module.scss'
 export default function Surface() {
   const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || [])
   // const [tasks, setTasks] = useState([])
-  const [counterColumns, setCounterColumns] = useState(JSON.parse(localStorage.getItem('counterColumns')) || 0)
+  // const [counterColumns, setCounterColumns] = useState(JSON.parse(localStorage.getItem('counterColumns')) || 0)
   const inputColumn = useRef();
   const [changingValue, setChangingValue] = useState(null)
-  // let task = null
-  // let background = null
-  // let shiftY = null
-  // let shiftX = null
-  // let eventMove = null
-  // let eventUp = null
-  // let eventOver = null
+  const [task, setTask] = useState(null)
+  const [background, setBackground] = useState(null)
+  const [shiftY, setShiftY] = useState(null)
+  const [shiftX, setShiftX] = useState(null)
+  const [eventMove, setEventMove] = useState(null)
+  const [eventUp, setEventUp] = useState(null)
+  const [eventOver, setEventOver] = useState(null)
 
-  // console.log(changingValue);
 
   useEffect(() => {
     fetch('http://localhost:3001/columns')
@@ -133,26 +132,30 @@ export default function Surface() {
     storeTasks(newTasks)
   }
 
-  // function onMouseDown(event) {
-  //   if (event.target.closest('.task')) {
-  //     task = event.target.closest('.task')
-  //     background = document.createElement('div')
-  //     shiftY = event.clientY - task.getBoundingClientRect().top;
-  //     shiftX = event.clientX - task.getBoundingClientRect().left;
+  function onMouseDown(event) {
+    setTask(event.target)
+    // background = document.createElement('div')
 
-  //     eventUp = onMouseUp.bind(this)
-  //     document.addEventListener('mouseup', eventUp)
-  //     eventMove = onMouseMove.bind(this)
-  //     document.addEventListener('mousemove', eventMove)
-  //   }
-  // }
+    getTaskCoords(event)
+
+    // eventUp = onMouseUp.bind(this)
+    // document.addEventListener('mouseup', eventUp)
+    // eventMove = onMouseMove.bind(this)
+    // document.addEventListener('mousemove', eventMove)
+  }
+
+  function getTaskCoords(event) {
+    setShiftY(event.clientY - task.getBoundingClientRect().top);
+    setShiftX(event.clientX - task.getBoundingClientRect().left);
+  }
+  // console.log(shiftY);
 
   // function onMouseMove(event) {
-
+  //   console.log(task.clientHeight);
   //   background.style.height = task.clientHeight + 'px'
   //   background.style.width = task.clientWidth + 'px'
-  //   background.style.borderRadius = '3px'
-  //   background.style.backgroundColor = '#bfbfbf'
+  //   // background.style.borderRadius = '3px'
+  //   // background.style.backgroundColor = '#bfbfbf'
   //   task.insertAdjacentElement('afterend', background)
 
   //   task.style.position = 'absolute';
@@ -214,16 +217,19 @@ export default function Surface() {
             </div>
             <div className={style.list}>
               {column.tasks.map(item =>
-                <div className={style.task} id={item.id} key={item.id}>
-                  {item.isChanging ?
-                    <form className={style.task__form} onSubmit={(e) => changeTask(e, column.id, item.id)}>
-                      <input type="text" value={changingValue} onChange={(e) => changeTaskValue(e, column.id, item.id)} />
-                    </form> :
-                    <div className={style.task__content} onDoubleClick={() => addInputForChanging(column.id, item.id, item.content)}>{item.content}</div>
-                  }
-                  <div className={style.task__change} onClick={() => addInputForChanging(column.id, item.id, item.content)}></div>
-                  <div className={style.task__close} onClick={() => closeTask(column.id, item.id)}></div>
-                </div>
+                <React.Fragment key={item.id}>
+                  <div className={style.task} id={item.id} key={item.id} onMouseDown={(e) => onMouseDown(e)}>
+                    {item.isChanging ?
+                      <form className={style.task__form} onSubmit={(e) => changeTask(e, column.id, item.id)}>
+                        <input type="text" value={changingValue} onChange={(e) => changeTaskValue(e, column.id, item.id)} />
+                      </form> :
+                      <div className={style.task__content} onDoubleClick={() => addInputForChanging(column.id, item.id, item.content)}>{item.content}</div>
+                    }
+                    <div className={style.task__change} onClick={() => addInputForChanging(column.id, item.id, item.content)}></div>
+                    <div className={style.task__close} onClick={() => closeTask(column.id, item.id)}></div>
+                  </div>
+                  <div className={style.background} ></div>
+                </React.Fragment>
               )}
             </div>
             <form action="" className={style.surface__taskForm} onSubmit={(e) => addTask(e, column.id)}>
@@ -248,7 +254,7 @@ export default function Surface() {
   //           </div>
   //           <div className={style.list}>
   //             {column.tasks.map((item, index) =>
-  //               <div className={style.task} id={item.id} key={index} onMouseDown={(e) => onMouseDown(e)}>
+  //               <div className={style.task} id={item.id} key={index} onMouseDown={(e) => onMouseDown(e)}}>
   //                 <div className={style.task__content} onDoubleClick={(e) => addInputForChanging(e)} onKeyPress={(e) => changeTask(e)}>{item.content}</div>
   //                 <div className={style.task__change} onClick={(e) => addInputForChanging(e)}></div>
   //                 <div className={style.task__close} onClick={(e) => closeTask(e)}></div>

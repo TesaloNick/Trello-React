@@ -1,50 +1,33 @@
 {
   "columns": [
     {
-      "head": "hgjkgh",
+      "head": "sdfsdf",
       "inputValue": "",
       "tasks": [
         {
-          "id": "1_594868349679900",
-          "content": "пропро",
+          "id": "1_78340283530104290",
+          "content": "ываыва",
+          "isChanging": false
+        },
+        {
+          "id": "1_7195846891996105",
+          "content": "ываыва",
           "isChanging": false
         }
       ],
       "id": 1
     },
     {
-      "head": "ываыва",
+      "head": "asd",
       "inputValue": "",
       "tasks": [
         {
-          "id": "3_5528794953669758",
-          "content": "ываыва",
-          "isChanging": false
-        },
-        {
-          "id": "3_99275826917519380",
-          "content": "вааа",
-          "isChanging": true
-        },
-        {
-          "id": "3_77329432180612210",
-          "content": "пропроп",
+          "id": "2_58442615923489384",
+          "content": "asdasd",
           "isChanging": false
         }
       ],
-      "id": 3
-    },
-    {
-      "head": "ываыва",
-      "inputValue": "",
-      "tasks": [
-        {
-          "id": "4_35720217106018980",
-          "content": "gggg",
-          "isChanging": false
-        }
-      ],
-      "id": 4
+      "id": 2
     }
   ],
   "comments": [

@@ -94,6 +94,12 @@
   gap: 10px;
 }
 
+.background {
+  border-radius: 3px;
+  background-color: #bfbfbf;
+  display: none;
+}
+
 .task {
   background-color: #fff;
   border-radius: 3px;
@@ -103,6 +109,10 @@
   display: grid;
   grid-template-columns: 1fr 20px 20px;
   gap: 10px;
+
+  &.absolute {
+    position: absolute;
+  }
 
   &__content {
     display: flex;
