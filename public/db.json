@@ -6,12 +6,12 @@
       "tasks": [
         {
           "id": "1_1004160955086153",
-          "content": "11",
+          "content": "11sss",
           "isChanging": false
         },
         {
-          "id": "1_44393977359991930",
-          "content": "asda",
+          "id": "1_63599666725698590",
+          "content": "asd",
           "isChanging": false
         }
       ],
@@ -20,12 +20,29 @@
     {
       "head": "asd",
       "inputValue": "",
-      "tasks": [],
+      "tasks": [
+        {
+          "id": "4_62736627566053384",
+          "content": "asd",
+          "isChanging": false
+        },
+        {
+          "id": "4_23582014853800292",
+          "content": "asd",
+          "isChanging": false
+        }
+      ],
       "id": 4
+    },
+    {
+      "head": "вап",
+      "inputValue": "",
+      "tasks": [],
+      "id": 5
     }
   ],
   "changingValue": {
-    "value": "222111"
+    "value": "asdasss"
   },
   "comments": [
     {

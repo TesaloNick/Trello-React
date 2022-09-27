@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './FormColumn.module.scss'
 
-export default function FormColumn({ column, tasks }) {
+export default function FormColumn({ column, tasks, changeColumnAPI }) {
   function addTask(e, columnId) {
     e.preventDefault()
     tasks.map(column => {
@@ -19,14 +19,6 @@ export default function FormColumn({ column, tasks }) {
       }
     })
     e.target.reset()
-  }
-
-  function changeColumnAPI(columnId, newColumn) {
-    fetch('http://localhost:3001/columns/' + columnId, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newColumn)
-    })
   }
 
   return (
