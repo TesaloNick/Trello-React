@@ -11,20 +11,9 @@
     padding: 10px 15px;
   }
 }
-
 .surface {
   display: grid;
   grid-template-columns: repeat(auto-fill, 317.5px) 317.5px;
   align-items: flex-start;
   gap: 10px;
-
-  &__column {
-    display: inline-block;
-    padding: 10px;
-    border-radius: 3px;
-    background-color: #ebecf0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
 }

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import style from './Surface.module.scss'
 import Form from './Form/Form';
-import List from './Column/List/List';
-import Head from './Column/Head/Head';
-import FormColumn from './Column/FormColumn/FormColumn';
+import Column from './Column/Column';
 
 export default function Surface() {
   const [tasks, setTasks] = useState([])
@@ -18,11 +16,7 @@ export default function Surface() {
     <div className={style.container} >
       <div className={style.surface}>
         {tasks.map(column =>
-          <div className={style.surface__column} id={column.id} key={column.id}>
-            <Head column={column} setTasks={setTasks} />
-            <List column={column} tasks={tasks} />
-            <FormColumn column={column} tasks={tasks} />
-          </div>
+          <Column key={column.id} column={column} tasks={tasks} setTasks={setTasks} />
         )}
         <Form />
       </div>

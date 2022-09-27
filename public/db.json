@@ -5,29 +5,23 @@
       "inputValue": "",
       "tasks": [
         {
-          "id": "1_47489503736844060",
-          "content": "asdas",
+          "id": "1_1004160955086153",
+          "content": "11",
           "isChanging": false
         },
         {
-          "id": "1_1004160955086153",
-          "content": "11",
+          "id": "1_44393977359991930",
+          "content": "asda",
           "isChanging": false
         }
       ],
       "id": 1
     },
     {
-      "head": "фsdasd",
+      "head": "asd",
       "inputValue": "",
-      "tasks": [
-        {
-          "id": "3_70602464038666830",
-          "content": "asdas",
-          "isChanging": false
-        }
-      ],
-      "id": 3
+      "tasks": [],
+      "id": 4
     }
   ],
   "changingValue": {
