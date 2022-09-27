@@ -1,0 +1,12 @@
+.surface {
+  &__taskForm {
+  }
+
+  &__taskInput {
+    background-color: transparent;
+    width: 100%;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 3px;
+  }
+}

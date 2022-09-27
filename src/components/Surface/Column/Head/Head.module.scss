@@ -1,0 +1,16 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  &__content {
+    font-weight: bold;
+  }
+
+  &__close {
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../../assets/img/close.svg);
+    background-size: cover;
+    position: relative;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,58 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task {
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 5px;
+  box-shadow: 0 1px 0 #091e4240;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr 20px 20px;
+  gap: 10px;
+
+  &.absolute {
+    position: absolute;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+  }
+
+  &__form {
+    height: 20px;
+    width: 100%;
+
+    input {
+      height: 20px;
+      width: 100%;
+      font-size: 18px;
+    }
+  }
+
+  &__new-text {
+    font-size: 20px;
+    line-height: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__change {
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../../assets/img/edit.svg);
+    background-size: cover;
+  }
+  &__close {
+    width: 20px;
+    height: 20px;
+    background-image: url(../../../../assets/img/close.svg);
+    background-size: cover;
+  }
+}
