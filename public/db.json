@@ -5,13 +5,13 @@
       "inputValue": "",
       "tasks": [
         {
-          "id": "1_78340283530104290",
-          "content": "ываыва",
+          "id": "1_69718820713059790",
+          "content": "ывапвап",
           "isChanging": false
         },
         {
-          "id": "1_7195846891996105",
-          "content": "ываыва",
+          "id": "1_30563717711220108",
+          "content": "asasd111bb77",
           "isChanging": false
         }
       ],
@@ -22,14 +22,17 @@
       "inputValue": "",
       "tasks": [
         {
-          "id": "2_58442615923489384",
-          "content": "asdasd",
+          "id": "2_25008287569260944",
+          "content": "asdas111sss111",
           "isChanging": false
         }
       ],
       "id": 2
     }
   ],
+  "changingValue": {
+    "value": "asasd111bb"
+  },
   "comments": [
     {
       "id": 1,
