@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import style from './Task.module.scss'
 
-export default function List({ item, column, tasks, changeColumnAPI }) {
+export default function List({ item, column, tasks, changeColumnAPI, counter, setCounter }) {
   const [changingValue, setChangingValue] = useState(null)
+  const [counterForChanging, setCounterForChanging] = useState(null)
 
   useEffect(() => {
     fetch('http://localhost:3001/changingValue')
@@ -15,6 +16,7 @@ export default function List({ item, column, tasks, changeColumnAPI }) {
       if (columnId === column.id) {
         const newColumn = { ...column, tasks: column.tasks.filter(task => task.id !== taskId) }
         changeColumnAPI(columnId, newColumn)
+        setCounter(counter + 1)
       }
     })
   }
@@ -28,12 +30,14 @@ export default function List({ item, column, tasks, changeColumnAPI }) {
             { ...task, isChanging: false })
         }
         changeColumnAPI(columnId, newColumn)
+        setCounter(counter + 1)
       } else {
         const newColumn = {
           ...column,
           tasks: column.tasks.map(task => { return { ...task, isChanging: false } })
         }
         changeColumnAPI(newColumn.id, newColumn)
+        setCounter(counter + 1)
       }
     })
 
@@ -44,12 +48,14 @@ export default function List({ item, column, tasks, changeColumnAPI }) {
         "value": taskContent
       })
     })
+
   }
 
   function changeTaskValue(e, columnId) {
     tasks.map(column => {
       if (columnId === column.id) {
         setChangingValue(e.target.value)
+        // setCounterForChanging(counterForChanging + 1)
       }
     })
   }
@@ -67,6 +73,7 @@ export default function List({ item, column, tasks, changeColumnAPI }) {
           } : task)
         }
         changeColumnAPI(columnId, newColumn)
+        setCounter(counter + 1)
       }
     })
   }

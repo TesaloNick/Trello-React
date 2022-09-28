@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import style from './Form.module.scss'
 
-export default function Form() {
+export default function Form({ counter, setCounter }) {
   const inputColumn = useRef();
 
   function addColumn(e) {
@@ -15,12 +15,13 @@ export default function Form() {
     e.target.reset()
   }
 
-  function addColumnAPI(newColumn) {
-    fetch('http://localhost:3001/columns', {
+  async function addColumnAPI(newColumn) {
+    await fetch('http://localhost:3001/columns', {
       method: 'post',
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(newColumn)
     })
+    setCounter(counter + 1)
   }
 
   return (

@@ -1,0 +1,90 @@
+{
+  "columns": [
+    {
+      "head": "11",
+      "inputValue": "",
+      "tasks": [
+        {
+          "id": "1_7072409579283989",
+          "content": "111",
+          "isChanging": false
+        },
+        {
+          "id": "1_44899264329786680",
+          "content": "1111",
+          "isChanging": false
+        }
+      ],
+      "id": 1
+    },
+    {
+      "head": "22",
+      "inputValue": "",
+      "tasks": [
+        {
+          "id": "2_797300174851956",
+          "content": "sss1111ыыыы111",
+          "isChanging": false
+        },
+        {
+          "id": "2_79955467410774820",
+          "content": "sss1111ыыыы11111",
+          "isChanging": false
+        }
+      ],
+      "id": 2
+    },
+    {
+      "head": "33",
+      "inputValue": "",
+      "tasks": [
+        {
+          "id": "3_91383113308558400",
+          "content": "3",
+          "isChanging": false
+        },
+        {
+          "id": "3_68348208236877080",
+          "content": "333",
+          "isChanging": true
+        }
+      ],
+      "id": 3
+    },
+    {
+      "head": "44",
+      "inputValue": "",
+      "tasks": [
+        {
+          "id": "4_77878206093775060",
+          "content": "4",
+          "isChanging": false
+        },
+        {
+          "id": "4_47682238543314240",
+          "content": "44",
+          "isChanging": false
+        },
+        {
+          "id": "4_31416713312925704",
+          "content": "444",
+          "isChanging": false
+        }
+      ],
+      "id": 4
+    }
+  ],
+  "changingValue": {
+    "value": "333"
+  },
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

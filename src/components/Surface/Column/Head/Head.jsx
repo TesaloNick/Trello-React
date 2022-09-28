@@ -1,10 +1,11 @@
 import React from 'react'
 import style from './Head.module.scss'
 
-export default function Head({ column, setTasks }) {
+export default function Head({ column, counter, setCounter }) {
   function deleteColumnAPI(columnId) {
     fetch('http://localhost:3001/columns/' + columnId, { method: 'DELETE' })
-      .then(tasks => setTasks(tasks))
+
+    setCounter(counter + 1)
   }
 
   return (

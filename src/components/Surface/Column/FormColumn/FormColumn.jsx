@@ -1,7 +1,7 @@
 import React from 'react'
 import style from './FormColumn.module.scss'
 
-export default function FormColumn({ column, tasks, changeColumnAPI }) {
+export default function FormColumn({ column, tasks, changeColumnAPI, counter, setCounter }) {
   function addTask(e, columnId) {
     e.preventDefault()
     tasks.map(column => {
@@ -16,6 +16,7 @@ export default function FormColumn({ column, tasks, changeColumnAPI }) {
           }]
         }
         changeColumnAPI(columnId, newColumn)
+        setCounter(counter + 1)
       }
     })
     e.target.reset()
