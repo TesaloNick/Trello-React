@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import style from './List.module.scss'
-import Task from './Task/Task'
+import Task from '../../elements/Task/Task'
 
 export default function List({ column, tasks, changeColumnAPI, counter, setCounter }) {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import style from './Head.module.scss'
+import style from './HeadColumn.module.scss'
 
 export default function Head({ column, counter, setCounter }) {
   function deleteColumnAPI(columnId) {
