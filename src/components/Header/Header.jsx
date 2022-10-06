@@ -2,7 +2,8 @@ import React from 'react'
 import headerLogo from '../../assets/img/header-logo.gif'
 import style from './Header.module.scss'
 
-export default function Header() {
+export default React.memo(function Header() {
+  console.log('Header');
   return (
     <header className={style.header}>
       <div className={style.container}>
@@ -10,4 +11,4 @@ export default function Header() {
       </div>
     </header>
   )
-}
+})

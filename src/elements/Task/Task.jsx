@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import style from './Task.module.scss'
 
-export default function List({ item, column, tasks, changeColumnAPI, counter, setCounter }) {
+export default React.memo(function Task({ item, column, tasks, changeColumnAPI, counter, setCounter }) {
+  console.log('Task');
   const [changingValue, setChangingValue] = useState(null)
   const [counterForChanging, setCounterForChanging] = useState(null)
 
@@ -92,4 +93,4 @@ export default function List({ item, column, tasks, changeColumnAPI, counter, se
       </div>
     </React.Fragment>
   )
-}
+})

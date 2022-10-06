@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react'
 import style from './Form.module.scss'
 
-export default function Form({ counter, setCounter }) {
+export default React.memo(function Form({ counter, setCounter }) {
+  console.log('Form');
   const inputColumn = useRef();
 
   function addColumn(e) {
@@ -29,4 +30,4 @@ export default function Form({ counter, setCounter }) {
       <input type="text" className={style.surface__addColumnInput} placeholder="+ Add column" ref={inputColumn} required />
     </form>
   )
-}
+})

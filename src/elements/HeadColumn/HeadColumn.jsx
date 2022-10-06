@@ -1,7 +1,8 @@
 import React from 'react'
 import style from './HeadColumn.module.scss'
 
-export default function Head({ column, counter, setCounter }) {
+export default React.memo(function HeadColumn({ column, counter, setCounter }) {
+  console.log('HeadColumn');
   function deleteColumnAPI(columnId) {
     fetch('http://localhost:3001/columns/' + columnId, { method: 'DELETE' })
 
@@ -14,4 +15,4 @@ export default function Head({ column, counter, setCounter }) {
       <div className={style.head__close} onClick={() => deleteColumnAPI(column.id)}></div>
     </div>
   )
-}
+})

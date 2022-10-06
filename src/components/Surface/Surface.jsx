@@ -6,7 +6,8 @@ import List from '../../elements/List/List';
 import Head from '../../elements/HeadColumn/HeadColumn';
 import FormColumn from '../../elements/FormColumn/FormColumn';
 
-export default function Surface() {
+export default React.memo(function Surface() {
+  console.log('Surface');
   const [tasks, setTasks] = useState([])
   const [counter, setCounter] = useState([])
 
@@ -39,4 +40,4 @@ export default function Surface() {
       </div>
     </div >
   )
-}
+})

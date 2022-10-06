@@ -1,7 +1,8 @@
 import React from 'react'
 import style from './FormColumn.module.scss'
 
-export default function FormColumn({ column, tasks, changeColumnAPI, counter, setCounter }) {
+export default React.memo(function FormColumn({ column, tasks, changeColumnAPI, counter, setCounter }) {
+  console.log('FormColumn');
   function addTask(e, columnId) {
     e.preventDefault()
     tasks.map(column => {
@@ -27,4 +28,4 @@ export default function FormColumn({ column, tasks, changeColumnAPI, counter, se
       <input type="text" className={style.surface__taskInput} placeholder="+ Add task" required />
     </form>
   )
-}
+})
